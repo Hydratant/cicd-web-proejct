@@ -76,7 +76,7 @@
 
     </dependencies>
     <build>
-        <finalName>hello-world</finalName>
+        <finalName>neobns-develop</finalName>
         <plugins>
             <!-- http://www.eclipse.org/jetty/documentation/current/jetty-maven-plugin.html -->
             <plugin>
