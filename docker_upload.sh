@@ -1,47 +1,47 @@
 #!/bin/bash
 
-DOCKER_REPOSITORY_NAME=neobns
+DOCKER_REPOSITORY_NAME=neobns-master
 ID=neobns
 PW=neobns06181!
 
-#docker imageÀÇ Ã¹ tag¸¦ È®ÀÎ ÈÄ, ´ÙÀ½ ¹öÀüÀÇ image¸¦ »ý¼º
-#¸¸¾à Ã³À½ »ý¼ºµÇ´Â ÀÌ¸§ÀÌ¶ó¸é 0.01 ÀÌ¸§À¸·Î »ý¼ºÇØÁØ´Ù.
+#docker imageï¿½ï¿½ Ã¹ tagï¿½ï¿½ È®ï¿½ï¿½ ï¿½ï¿½, ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ imageï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+#ï¿½ï¿½ï¿½ï¿½ Ã³ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ç´ï¿½ ï¿½Ì¸ï¿½ï¿½Ì¶ï¿½ï¿½ 0.01 ï¿½Ì¸ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ø´ï¿½.
 
 TAG=$(docker images | awk -v DOCKER_REPOSITORY_NAME=$DOCKER_REPOSITORY_NAME '{if ($1 == DOCKER_REPOSITORY_NAME) print $2;}')
 
-# ¸¸¾à [0-9]\.[0-9]{1,2} À¸·Î ¹öÀüÀÌ °ü¸®µÈ ±âÁ¸ÀÇ ÀÌ¹ÌÁö ÀÏ °æ¿ì
+# ï¿½ï¿½ï¿½ï¿½ [0-9]\.[0-9]{1,2} ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ì¹ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½
 if [[ $TAG =~ [0-9]\.[0-9]{1,2} ]]; then
     NEW_TAG_VER=$(echo $TAG 0.01 | awk '{print $1+$2}')
-    echo "ÇöÀç ¹öÀüÀº $TAG ÀÔ´Ï´Ù."
-    echo "»õ·Î¿î ¹öÀüÀº $NEW_TAG_VER ÀÔ´Ï´Ù"
+    echo "ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ $TAG ï¿½Ô´Ï´ï¿½."
+    echo "ï¿½ï¿½ï¿½Î¿ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ $NEW_TAG_VER ï¿½Ô´Ï´ï¿½"
 
-# ±× ¿Ü »õ·Ó°Ô ¸¸µé°Å³ª, lastest or lts µî tag ÀÏ ¶§
+# ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½Ó°ï¿½ ï¿½ï¿½ï¿½ï¿½Å³ï¿½, lastest or lts ï¿½ï¿½ tag ï¿½ï¿½ ï¿½ï¿½
 else
-    # echo "»õ·Ó°Ô ¸¸µé¾îÁø ÀÌ¹ÌÁö ÀÔ´Ï´Ù."
+    # echo "ï¿½ï¿½ï¿½Ó°ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ì¹ï¿½ï¿½ï¿½ ï¿½Ô´Ï´ï¿½."
     NEW_TAG_VER=0.01
 fi
 
-# ÇöÀç À§Ä¡¿¡ Á¸ÀçÇÏ´Â DOCKER FILEÀ» »ç¿ëÇÏ¿© ºôµå
+# ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ä¡ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½ DOCKER FILEï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ï¿ï¿½ ï¿½ï¿½ï¿½ï¿½
 docker build -t $DOCKER_REPOSITORY_NAME:$NEW_TAG_VER .
 
-# docker hub¿¡ push ÇÏ±âÀ§ÇØ login
+# docker hubï¿½ï¿½ push ï¿½Ï±ï¿½ï¿½ï¿½ï¿½ï¿½ login
 docker login -u $ID -p $PW
 
 if [ $NEW_TAG_VER != "0.01" ]; then
     docker rmi $DOCKER_REPOSITORY_NAME:$TAG
 fi
-# »õ·Î¿î ÅÂ±×¸¦ ¼³Á¤ÇÑ image¸¦ »ý¼º
+# ï¿½ï¿½ï¿½Î¿ï¿½ ï¿½Â±×¸ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ imageï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 docker tag $DOCKER_REPOSITORY_NAME:$NEW_TAG_VER $ID/$DOCKER_REPOSITORY_NAME:$NEW_TAG_VER
 
-# docker hub¿¡ push
+# docker hubï¿½ï¿½ push
 docker push $ID/$DOCKER_REPOSITORY_NAME:$NEW_TAG_VER
 
-# tag°¡ "latest"ÀÎ image¸¦ ÃÖ½Å ¹öÀüÀ» ÅëÇØ »ý¼º
+# tagï¿½ï¿½ "latest"ï¿½ï¿½ imageï¿½ï¿½ ï¿½Ö½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 docker tag $DOCKER_REPOSITORY_NAME:$NEW_TAG_VER $ID/$DOCKER_REPOSITORY_NAME:latest
 
-# latest¸¦ docker hub¿¡ push
+# latestï¿½ï¿½ docker hubï¿½ï¿½ push
 docker push $ID/$DOCKER_REPOSITORY_NAME:latest
 
-# ¹öÀü °ü¸®¿¡ ¹®Á¦°¡ ÀÖ¾î latest¸¦ »èÁ¦
+# ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ö¾ï¿½ latestï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 docker rmi $ID/$DOCKER_REPOSITORY_NAME:latest
 docker rmi $ID/$DOCKER_REPOSITORY_NAME:$NEW_TAG_VER
