@@ -76,7 +76,7 @@
 
     </dependencies>
     <build>
-        <finalName>neobns-develop</finalName>
+        <finalName>neobns-master</finalName>
         <plugins>
             <!-- http://www.eclipse.org/jetty/documentation/current/jetty-maven-plugin.html -->
             <plugin>
